@@ -4,5 +4,6 @@ public class Main {
 	// write your code here
         System.out.println("Hello github!");
         System.out.println("How are you!");
+        System.out.println("Why?");
     }
 }
