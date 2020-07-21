@@ -1,6 +1,7 @@
 package binarysearchtree;
 
-import java.nio.file.NotLinkException;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 public class BST <E extends Comparable<E>> {
@@ -180,6 +181,20 @@ public class BST <E extends Comparable<E>> {
         }
     }
 
-
+    /**层次遍历（广度优先遍历）*/
+    public void levelOrder(){
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(this.root);
+        while (!queue.isEmpty()){
+            Node cur = queue.remove();
+            System.out.println(cur.e.toString());
+            if (cur.left != null){
+                queue.add(cur.left);
+            }
+            if (cur.right != null){
+                queue.add(cur.right);
+            }
+        }
+    }
 
 }
