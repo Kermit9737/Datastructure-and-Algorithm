@@ -1,5 +1,7 @@
 package binarysearchtree;
 
+import java.nio.file.NotLinkException;
+
 public class BST <E extends Comparable<E>> {
     private class Node{
         public E e;
@@ -114,4 +116,50 @@ public class BST <E extends Comparable<E>> {
 
     }
 
+    /**实际调用的方法，前序遍历二分搜索树*/
+    public void preOrder(){
+        preOrder(this.root);
+    }
+
+    /**前序遍历*/
+    private void preOrder(Node node){
+        if (node == null){
+            return;
+        }
+
+        System.out.println(node.e.toString());
+
+        preOrder(node.left);
+        preOrder(node.right);
+    }
+
+    /**中序遍历----二分搜索树元素的排序*/
+    public void inOrder(){
+        inOrder(this.root);
+    }
+
+    private void inOrder(Node node){
+        if (node == null){
+            return;
+        }
+
+        inOrder(node.left);
+        System.out.println(node.e.toString());
+        inOrder(node.right);
+    }
+
+    /**后序遍历----内存释放*/
+    public void postOrder(){
+        postOrder(this.root);
+    }
+
+    private void postOrder(Node node){
+        if (node == null){
+            return;
+        }
+
+        postOrder(node.left);
+        postOrder(node.right);
+        System.out.println(node.e.toString());
+    }
 }
