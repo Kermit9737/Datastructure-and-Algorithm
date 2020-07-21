@@ -84,9 +84,34 @@ public class BST <E extends Comparable<E>> {
         return node;
     }
 
-    /**实际调用的方法*/
+    /**实际调用的方法，向二叉树中添加元素e*/
     public void add(E e){
         this.root = add(this.root,e);
+    }
+
+    /**实际调用的方法，判断二叉树搜索中是否包含元素e*/
+    public boolean contains(E e){
+        return contains(this.root,e);
+    }
+
+    /**查看以node为根节点的二叉树搜索是否包含元素e*/
+    private boolean contains(Node node,E e){
+        //如果当前的根是空的，证明不存在这个元素
+        //因为是二叉搜索树，所以为空一定不存在
+        if (node == null){
+            return false;
+        }
+
+        if (node.e.compareTo(e) == 0){
+            return true;
+        }
+        else if (node.e.compareTo(e) < 0){
+            return contains(node.left,e);
+        }
+        else {
+            return contains(node.right,e);
+        }
+
     }
 
 }
