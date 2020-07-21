@@ -1,6 +1,7 @@
 package binarysearchtree;
 
 import java.nio.file.NotLinkException;
+import java.util.Stack;
 
 public class BST <E extends Comparable<E>> {
     private class Node{
@@ -162,4 +163,23 @@ public class BST <E extends Comparable<E>> {
         postOrder(node.right);
         System.out.println(node.e.toString());
     }
+
+    /**前序遍历的非递归写法*/
+    public void preOrderNR(){
+        Stack<Node> stack = new Stack<>();
+        stack.push(this.root);
+        while (!stack.isEmpty()){
+            Node cur = stack.pop();
+            System.out.println(cur.e.toString());
+
+            //后入先出，先压右孩子
+            if (cur.right != null)
+                stack.push(cur.right);
+            if (cur.left != null)
+                stack.push(cur.left);
+        }
+    }
+
+
+
 }
