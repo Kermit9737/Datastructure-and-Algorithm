@@ -197,4 +197,156 @@ public class BST <E extends Comparable<E>> {
         }
     }
 
+
+    /**寻找二分搜索树的最小元素*/
+    public E minimum(){
+        if(size == 0)
+            throw new IllegalArgumentException("BST is empty");
+
+        Node minNode = minimum(root);
+        return minNode.e;
+    }
+
+    /**返回以node为根的二分搜索树的最小值所在的节点 */
+    private Node minimum(Node node){
+        if( node.left == null )
+            return node;
+
+        return minimum(node.left);
+    }
+
+    /**寻找二分搜索树的最大元素*/
+    public E maximum(){
+        if(size == 0)
+            throw new IllegalArgumentException("BST is empty");
+
+        return maximum(root).e;
+    }
+
+    /**返回以node为根的二分搜索树的最大值所在的节点*/
+    private Node maximum(Node node){
+        if( node.right == null )
+            return node;
+
+        return maximum(node.right);
+    }
+
+    /**从二分搜索树中删除最小值所在节点, 返回最小值*/
+    public E removeMin(){
+        E ret = minimum();
+        root = removeMin(root);
+        return ret;
+    }
+
+    // 删除掉以node为根的二分搜索树中的最小节点
+    // 返回删除节点后新的二分搜索树的根
+    private Node removeMin(Node node){
+
+        if(node.left == null){
+            Node rightNode = node.right;
+            node.right = null;
+            size --;
+            return rightNode;
+        }
+
+        node.left = removeMin(node.left);
+        return node;
+    }
+
+    // 从二分搜索树中删除最大值所在节点
+    public E removeMax(){
+        E ret = maximum();
+        root = removeMax(root);
+        return ret;
+    }
+
+    // 删除掉以node为根的二分搜索树中的最大节点
+    // 返回删除节点后新的二分搜索树的根
+    private Node removeMax(Node node){
+
+        if(node.right == null){
+            Node leftNode = node.left;
+            node.left = null;
+            size --;
+            return leftNode;
+        }
+
+        node.right = removeMax(node.right);
+        return node;
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder res = new StringBuilder();
+        generateBSTString(root, 0, res);
+        return res.toString();
+    }
+
+    /**生成以node为根节点，深度为depth的描述二叉树的字符串*/
+    private void generateBSTString(Node node, int depth, StringBuilder res){
+
+        if(node == null){
+            res.append(generateDepthString(depth) + "null\n");
+            return;
+        }
+
+        res.append(generateDepthString(depth) + node.e +"\n");
+        generateBSTString(node.left, depth + 1, res);
+        generateBSTString(node.right, depth + 1, res);
+    }
+
+    private String generateDepthString(int depth){
+        StringBuilder res = new StringBuilder();
+        for(int i = 0 ; i < depth ; i ++)
+            res.append("--");
+        return res.toString();
+    }
+
+    /**从二分搜索树中删除元素为e的节点*/
+    public void remove(E e){
+        this.root = remove(this.root,e);
+    }
+
+    /**删除以node为根的二分搜索树中值为e的节点
+     * 返回删除之后新的二分搜索树的根*/
+    private Node remove(Node node,E e){
+        if (node == null){
+            return null;
+        }
+
+        if (e.compareTo(node.e) < 0){
+            //e比当前节点的值小
+            node.left = remove(node.left,e);
+            return node;
+        }
+        else if (e.compareTo(node.e) > 0){
+            node.right = remove(node.right,e);
+            return node;
+        }
+        else {
+            //此时待删除的节点就是node
+            if (node.left == null){
+                Node rightNode = node.right;//保存右子树
+                node.right = null;//将node的右子树断开
+                size --;
+                return rightNode;
+            }
+            if (node.right == null){
+                Node leftNode = node.left;
+                node.left = null;
+                size--;
+                return leftNode;
+            }
+            //左右子树都不为空
+            //找到比但删除节点大的最小的节点，即待删除结点的右子树的最小节点
+            //用这个节点替代被删除节点
+            Node successor = minimum(node.right);
+            successor.right = removeMin(node.right);
+            successor.left = node.left;
+            //removeMin中size--，此处省略
+            node.left = node.right = null;
+
+            return successor;
+        }
+    }
 }
